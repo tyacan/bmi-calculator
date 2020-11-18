@@ -4,6 +4,10 @@ import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'const.dart';
 
+enum Gender {
+  male, female,
+}
+
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
@@ -13,12 +17,12 @@ class _InputPageState extends State<InputPage> {
   Color maleCardColor = inActiveCardColor;
   Color femaleCardColor = inActiveCardColor;
 
-  void updateGender(int gender) {
+  void updateGender(Gender selectedGender) {
     // 1 = male, 2 = famale
-    if (gender == 1) {
+    if (selectedGender == Gender.male) {
       maleCardColor = activeCardColor;
       femaleCardColor = inActiveCardColor;
-    } else if (gender == 2) {
+    } else if (selectedGender == Gender.female) {
       femaleCardColor = activeCardColor;
       maleCardColor = inActiveCardColor;
     }
@@ -42,7 +46,7 @@ class _InputPageState extends State<InputPage> {
                     onTap: () {
                       print('male card was tapped');
                       setState(() {
-                        updateGender(1);
+                        updateGender(Gender.male);
                       });
                     },
                     child: ReusableCard(
@@ -60,7 +64,7 @@ class _InputPageState extends State<InputPage> {
                     onTap: () {
                       print('female card was tapped');
                       setState(() {
-                        updateGender(2);
+                        updateGender(Gender.female);
                       });
                     },
                     child: ReusableCard(
