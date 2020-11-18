@@ -4,8 +4,21 @@ import 'package:flutter/material.dart';
 import '../components/bottom_button.dart';
 
 class ResultsPage extends StatelessWidget {
+  
+  ResultsPage({
+    @required this.bmiResult,
+    @required this.resultText,
+    @required this.interpretation,
+  });
+  
+  final String bmiResult;
+  final String resultText;
+  final String interpretation;
+
   @override
   Widget build(BuildContext context) {
+    final Map data = ModalRoute.of(context).settings.arguments as Map;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,21 +43,21 @@ class ResultsPage extends StatelessWidget {
           Expanded(
             flex: 5,
             child: ReusableCard(
-              color: kActiveCardColor,
+              color: kMainCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Normal',
+                    data['result'],
                     style: kResultTextStyle,
                   ),
                   Text(
-                    '18.3',
+                    data['bmi'],
                     style: kBMITextStyle,
                   ),
                   Text(
-                    'Your BMI result is quite low, you should ear more!',
+                    data['interpretation'],
                     textAlign: TextAlign.center,
                     style: kBodyTextStyle,
                   ),

@@ -5,6 +5,7 @@ import '../components/icon_content.dart';
 import '../components/bottom_button.dart';
 import '../components/round_icon_button.dart';
 import '../const.dart';
+import '../brains/calculator_brain.dart';
 
 enum Gender {
   male,
@@ -44,7 +45,7 @@ class _InputPageState extends State<InputPage> {
                     },
                     color: selectedGender == Gender.male
                         ? kActiveCardColor
-                        : kInkActiveCardColor,
+                        : kInkMainCardColor,
                     cardChild: IconContent(
                       icon: FontAwesomeIcons.mars,
                       label: 'MALE',
@@ -61,7 +62,7 @@ class _InputPageState extends State<InputPage> {
                     },
                     color: selectedGender == Gender.female
                         ? kActiveCardColor
-                        : kInkActiveCardColor,
+                        : kInkMainCardColor,
                     cardChild: IconContent(
                       icon: FontAwesomeIcons.venus,
                       label: 'FEMALE',
@@ -74,7 +75,7 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             // ReusableCard
             child: ReusableCard(
-              color: kActiveCardColor,
+              color: kMainCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -92,8 +93,8 @@ class _InputPageState extends State<InputPage> {
                         style: kNumberTextStyle,
                       ),
                       Text(
-                        'cm',
-                        style: kLabelTextStyle,
+                        ' cm',
+                        style: kLabelValueTextStyle,
                       ),
                     ],
                   ),
@@ -129,7 +130,7 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   // ReusableCard
                   child: ReusableCard(
-                    color: kActiveCardColor,
+                    color: kMainCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -137,9 +138,20 @@ class _InputPageState extends State<InputPage> {
                           'WEGHT',
                           style: kLabelTextStyle,
                         ),
-                        Text(
-                          weight.toString(),
-                          style: kNumberTextStyle,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: <Widget>[
+                            Text(
+                              weight.toString(),
+                              style: kNumberTextStyle,
+                            ),
+                            Text(
+                              ' kg',
+                              style: kLabelValueTextStyle,
+                            ),
+                          ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +182,7 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   // ReusableCard
                   child: ReusableCard(
-                    color: kActiveCardColor,
+                    color: kMainCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -178,9 +190,20 @@ class _InputPageState extends State<InputPage> {
                           'AGE',
                           style: kLabelTextStyle,
                         ),
-                        Text(
-                          age.toString(),
-                          style: kNumberTextStyle,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: <Widget>[
+                            Text(
+                              age.toString(),
+                              style: kNumberTextStyle,
+                            ),
+                            Text(
+                              ' years',
+                              style: kLabelValueTextStyle,
+                            ),
+                          ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +236,17 @@ class _InputPageState extends State<InputPage> {
           ),
           BottomButton(
             onTap: () {
-              Navigator.pushNamed(context, '/results');
+              CalculatorBrain calculatorBrain =
+                  CalculatorBrain(height: height, weight: weight, age: age);
+
+              Navigator.of(context).pushNamed(
+                '/results',
+                arguments: {
+                  'result': calculatorBrain.getResult(),
+                  'bmi': calculatorBrain.calculateBMI(),
+                  'interpretation': calculatorBrain.getInterpretation(),
+                },
+              );
             },
             buttonTitle: 'CALCULATE',
           ),
@@ -222,4 +255,3 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
-
